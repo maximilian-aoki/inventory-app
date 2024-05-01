@@ -28,7 +28,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // performance and security
 app.use(compression());
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "img-src": ["'self'", "images.unsplash.com"],
+    },
+  })
+);
 app.disable("x-powered-by");
 
 app.use("/", indexRouter);

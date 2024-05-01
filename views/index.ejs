@@ -1,17 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html class="bg-slate-100">
   <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/output.css" />
   </head>
-  <body class="bg-blue-700">
-    <div class="container">
-      <button
-        class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-400"
+  <body class="h-screen flex flex-col font-mono">
+    <header
+      class="flex-initial h-36 grid place-content-center bg-slate-600 font-bold text-5xl shadow-md text-white p-4"
+    >
+      <h1>Digital Convenience</h1>
+    </header>
+    <main class="flex-grow grid grid-cols-[300px_1fr] bg-slate-900">
+      <div
+        class="bg-slate-800 p-6 m-6 rounded-md shadow-lg grid content-start gap-9"
       >
-        Find Friends
-      </button>
-      <button class="btn btn-blue">Find Groups</button>
-    </div>
+        <div>
+          <h3 class="font-bold text-xl mb-3 text-white">Main Pages</h3>
+          <ul class="grid content-start gap-1">
+            <a href="/" class="text-cyan-100 hover:text-cyan-300">Home</a>
+            <a href="/inventory" class="text-cyan-100 hover:text-cyan-300"
+              >Inventory</a
+            >
+          </ul>
+        </div>
+        <hr />
+        <div>
+          <h3 class="font-bold text-xl mb-3 text-white">Visitor Actions</h3>
+          <ul class="grid content-start gap-1">
+            <a
+              href="/inventory/categories"
+              class="text-cyan-100 hover:text-cyan-300"
+              >Categories</a
+            >
+            <a href="/inventory/items" class="text-cyan-100 hover:text-cyan-300"
+              >Products</a
+            >
+          </ul>
+        </div>
+        <hr />
+        <div>
+          <h3 class="font-bold text-xl mb-3 text-white">Admin Actions</h3>
+          <ul class="grid content-start gap-1">
+            <a
+              href="/inventory/categories/create"
+              class="text-cyan-100 hover:text-cyan-300"
+              >Create Category</a
+            >
+            <a
+              href="/inventory/items/create"
+              class="text-cyan-100 hover:text-cyan-300"
+              >Create Product</a
+            >
+          </ul>
+        </div>
+      </div>
+      <div class="bg-slate-700 p-6 m-6 rounded-md shadow-lg">
+        <h2 class="text-3xl text-white font-bold">App Overview</h2>
+      </div>
+    </main>
+    <footer
+      class="flex-initial h-36 text-center text-xl grid place-content-center font-bold bg-amber-200 p-4"
+    >
+      <p class="text-slate-900">2024 Copyright Maximilian Aoki</p>
+    </footer>
   </body>
 </html>
