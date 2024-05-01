@@ -9,7 +9,6 @@ const helmet = require("helmet");
 const dbUtils = require("./db/dbUtils");
 
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
 const inventoryRouter = require("./routes/inventory");
 
 const app = express();
@@ -33,7 +32,6 @@ app.use(helmet());
 app.disable("x-powered-by");
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
 app.use("/inventory", inventoryRouter);
 
 // catch 404 and forward to error handler
