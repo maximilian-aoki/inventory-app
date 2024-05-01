@@ -11,7 +11,10 @@ const router = express.Router();
 router.get(
   "/",
   asyncHandler(async (req, res, next) => {
-    res.send("main inventory page");
+    res.render("inventory_page", {
+      title: "Digital Convenience Store",
+      header: "Inventory Overview",
+    });
   })
 );
 

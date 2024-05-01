@@ -3,7 +3,10 @@ const asyncHandler = require("express-async-handler");
 // READ
 
 exports.itemList = asyncHandler(async (req, res, next) => {
-  res.send(`list of items`);
+  res.render("item_list", {
+    title: "Digital Convenience Store",
+    header: "All Products",
+  });
 });
 
 exports.itemDetail = asyncHandler(async (req, res, next) => {
@@ -13,7 +16,10 @@ exports.itemDetail = asyncHandler(async (req, res, next) => {
 // CREATE
 
 exports.itemCreateGet = asyncHandler(async (req, res, next) => {
-  res.send(`form to create new item`);
+  res.render("item_create", {
+    title: "Digital Convenience Store",
+    header: "Create a New Product",
+  });
 });
 
 exports.itemCreatePost = asyncHandler(async (req, res, next) => {
@@ -23,7 +29,10 @@ exports.itemCreatePost = asyncHandler(async (req, res, next) => {
 // UPDATE
 
 exports.itemUpdateGet = asyncHandler(async (req, res, next) => {
-  res.send(`form to update item id: ${req.params.id}`);
+  res.render("item_create", {
+    title: "Digital Convenience Store",
+    header: "Update a Product",
+  });
 });
 
 exports.itemUpdatePost = asyncHandler(async (req, res, next) => {

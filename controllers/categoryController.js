@@ -3,7 +3,10 @@ const asyncHandler = require("express-async-handler");
 // READ
 
 exports.categoryList = asyncHandler(async (req, res, next) => {
-  res.send(`list of categories`);
+  res.render("category_list", {
+    title: "Digital Convenience Store",
+    header: "All Categories",
+  });
 });
 
 exports.categoryDetail = asyncHandler(async (req, res, next) => {
@@ -13,7 +16,10 @@ exports.categoryDetail = asyncHandler(async (req, res, next) => {
 // CREATE
 
 exports.categoryCreateGet = asyncHandler(async (req, res, next) => {
-  res.send(`new category form`);
+  res.render("category_create", {
+    title: "Digital Convenience Store",
+    header: "Create a New Category",
+  });
 });
 
 exports.categoryCreatePost = asyncHandler(async (req, res, next) => {
@@ -23,7 +29,10 @@ exports.categoryCreatePost = asyncHandler(async (req, res, next) => {
 // UPDATE
 
 exports.categoryUpdateGet = asyncHandler(async (req, res, next) => {
-  res.send(`form for updating category id: ${req.params.id}`);
+  res.render("category_create", {
+    title: "Digital Convenience Store",
+    header: "Update a Category",
+  });
 });
 
 exports.categoryUpdatePost = asyncHandler(async (req, res, next) => {
