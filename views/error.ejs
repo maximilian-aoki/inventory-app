@@ -1,3 +1,12 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html class="bg-slate-900">
+  <head>
+    <title>Error!</title>
+    <link rel="stylesheet" href="/stylesheets/output.css" />
+  </head>
+  <body class="h-screen flex flex-col font-mono text-white p-12">
+    <h1 class="font-bold"><%= message %></h1>
+    <h2><%= error.status %></h2>
+    <pre><%= error.stack %></pre>
+  </body>
+</html>

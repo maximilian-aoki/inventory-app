@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html class="bg-slate-100">
+<html class="bg-slate-900">
   <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/output.css" />
   </head>
   <body class="h-screen flex flex-col font-mono">
     <header
-      class="flex-initial h-36 grid place-content-center bg-slate-600 font-bold text-5xl shadow-md text-white p-4"
+      class="flex-none h-36 grid place-content-center bg-slate-600 font-bold text-5xl shadow-md text-white p-4"
     >
       <h1>Store Inventory Manager</h1>
     </header>
@@ -70,7 +70,12 @@
               required
             >
               <% locals.allCategories.forEach(category => { %> <% if
-              (locals.item && item.category._id.toString() ===
+              (locals.postVals && postVals.category.toString() ===
+              category._id.toString()) { %>
+              <option value="<%= category._id %>" selected>
+                <%= category.name %>
+              </option>
+              <% } else if (locals.item && item.category._id.toString() ===
               category._id.toString()) { %>
               <option value="<%= category._id %>" selected>
                 <%= category.name %>
@@ -85,35 +90,49 @@
             <label for="name">Name:</label>
             <input type="text" class="appearance-none text-slate-900 p-1
             rounded" minlength="2" maxlength="25" required value="<%=
-            locals.item ? item.name : "" %>" id="name" name="name" />
+            locals.postVals ? postVals.name : locals.item ? item.name : "" %>"
+            id="name" name="name" />
           </div>
           <div class="flex flex-col gap-2 text-white">
             <label for="description">Description:</label>
             <input type="text" class="appearance-none text-slate-900 p-1
             rounded" minlength="2" maxlength="100" required value="<%=
-            locals.item ? item.description : "" %>" name="description"
-            id="description" />
+            locals.postVals ? postVals.description : locals.item ?
+            item.description : "" %>" name="description" id="description" />
           </div>
           <hr />
           <div class="flex flex-col gap-2 text-white">
             <label for="price">Price:</label>
-            <input type="number" class="appearance-none text-slate-900 p-1
-            rounded max-w-20" min="0" required value="<%= locals.item ?
-            item.price : "" %>" id="price" name="price" />
+            <input type="number" step=".01" class="appearance-none
+            text-slate-900 p-1 rounded max-w-20" min="0" required value="<%=
+            locals.postVals ? postVals.price : locals.item ? item.price : "" %>"
+            id="price" name="price" />
           </div>
           <div class="flex flex-col gap-2 text-white">
             <label for="numberInStock">Number In Stock:</label>
             <input type="number" class="appearance-none text-slate-900 p-1
-            rounded max-w-20" min="0" max="100" required value="<%= locals.item
-            ? item.numberInStock : "" %>" id="numberInStock"
-            name="numberInStock" />
+            rounded max-w-20" min="0" max="100" required value="<%=
+            locals.postVals ? postVals.numberInStock : locals.item ?
+            item.numberInStock : "" %>" id="numberInStock" name="numberInStock"
+            />
           </div>
           <hr />
           <div class="flex flex-col gap-2 text-white">
-            <label for="imgUrl">Image URL:</label>
+            <label for="imgUrl">Image URL: (only from unsplash.com)</label>
             <input type="text" class="appearance-none text-slate-900 p-1
-            rounded" value="<%= locals.item ? item.imgUrl : "" %>" id="imgUrl"
-            name="imgUrl" />
+            rounded" value="<%= locals.postVals ? postVals.imgUrl : locals.item
+            ? item.imgUrl : "" %>" id="imgUrl" name="imgUrl" />
+          </div>
+          <hr />
+          <div class="flex flex-col gap-2 text-white">
+            <label for="password">Admin Password:</label>
+            <input
+              type="password"
+              class="appearance-none text-slate-900 p-1 rounded"
+              id="password"
+              name="password"
+              required
+            />
           </div>
           <input
             type="submit"

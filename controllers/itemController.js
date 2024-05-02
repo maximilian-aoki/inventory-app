@@ -42,9 +42,53 @@ exports.itemCreateGet = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.itemCreatePost = asyncHandler(async (req, res, next) => {
-  res.send(`new item created`);
-});
+exports.itemCreatePost = [
+  val.pipe([
+    val.valPassword,
+    val.valCategory,
+    val.valName,
+    val.valDesc,
+    val.valPrice,
+    val.valNumInStock,
+  ]),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.errors.length) {
+      const allCategories = await Category.find().sort({ name: 1 }).exec();
+      const allErrors = errors.array().map((error) => error.msg);
+      const postVals = {
+        category: req.body.category,
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        numberInStock: req.body.numberInStock,
+        imgUrl: req.body.imgUrl,
+      };
+
+      res.render("item_create", {
+        title: "Digital Convenience Store",
+        header: "Create a New Product",
+        allCategories,
+        errors: allErrors,
+        postVals,
+      });
+    }
+
+    const validatedData = matchedData(req);
+    const newItem = await Item.create({
+      name: validatedData.name,
+      description: validatedData.description,
+      price: validatedData.price,
+      numberInStock: validatedData.numberInStock,
+      imgUrl:
+        req.body.imgUrl === ""
+          ? "https://images.unsplash.com/photo-1610187966294-0d2491a3cb1c?q=80&w=1927&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          : req.body.imgUrl,
+      category: validatedData.category,
+    });
+    res.redirect(`/inventory/items/${newItem._id}`);
+  }),
+];
 
 // UPDATE
 
@@ -60,9 +104,58 @@ exports.itemUpdateGet = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.itemUpdatePost = asyncHandler(async (req, res, next) => {
-  res.send(`updated item id: ${req.params.id}`);
-});
+exports.itemUpdatePost = [
+  val.pipe([
+    val.valPassword,
+    val.valCategory,
+    val.valName,
+    val.valDesc,
+    val.valPrice,
+    val.valNumInStock,
+  ]),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.errors.length) {
+      const item = await Item.findById(req.params.id).exec();
+      const allCategories = await Category.find().sort({ name: 1 }).exec();
+      const allErrors = errors.array().map((error) => error.msg);
+      const postVals = {
+        category: req.body.category,
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        numberInStock: req.body.numberInStock,
+        imgUrl: req.body.imgUrl,
+      };
+
+      return res.render("item_create", {
+        title: "Digital Convenience Store",
+        header: `Update Product: ${item.name}`,
+        item,
+        allCategories,
+        errors: allErrors,
+        postVals,
+      });
+    }
+
+    const validatedData = matchedData(req);
+
+    const item = await Item.findById(req.params.id).exec();
+
+    item.category = validatedData.category;
+    item.name = validatedData.name;
+    item.description = validatedData.description;
+    item.price = Number(validatedData.price);
+    item.numberInStock = Number(validatedData.numberInStock);
+    item.imgUrl =
+      req.body.imgUrl === ""
+        ? "https://images.unsplash.com/photo-1610187966294-0d2491a3cb1c?q=80&w=1927&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        : req.body.imgUrl;
+
+    await item.save();
+    res.redirect(`/inventory/items/${item._id}`);
+  }),
+];
 
 // DELETE
 

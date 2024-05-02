@@ -40,9 +40,38 @@ exports.categoryCreateGet = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.categoryCreatePost = asyncHandler(async (req, res, next) => {
-  res.send(`posted new category`);
-});
+exports.categoryCreatePost = [
+  val.pipe([val.valPassword, val.valName, val.valDesc]),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.errors.length) {
+      const allErrors = errors.array().map((error) => error.msg);
+      const postVals = {
+        name: req.body.name,
+        description: req.body.description,
+        imgUrl: req.body.imgUrl,
+      };
+
+      return res.render("category_create", {
+        title: "Digital Convenience Store",
+        header: `Create a New Category`,
+        errors: allErrors,
+        postVals,
+      });
+    }
+
+    const validatedData = matchedData(req);
+    const newCategory = await Category.create({
+      name: validatedData.name,
+      description: validatedData.description,
+      imgUrl:
+        req.body.imgUrl === ""
+          ? "https://images.unsplash.com/photo-1610187966294-0d2491a3cb1c?q=80&w=1927&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          : req.body.imgUrl,
+    });
+    res.redirect(`/inventory/categories/${newCategory._id}`);
+  }),
+];
 
 // UPDATE
 
@@ -56,9 +85,43 @@ exports.categoryUpdateGet = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.categoryUpdatePost = asyncHandler(async (req, res, next) => {
-  res.send(`updated category id: ${req.params.id}`);
-});
+exports.categoryUpdatePost = [
+  val.pipe([val.valPassword, val.valName, val.valDesc]),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (errors.errors.length) {
+      const category = await Category.findById(req.params.id).exec();
+      const allErrors = errors.array().map((error) => error.msg);
+      const postVals = {
+        name: req.body.name,
+        description: req.body.description,
+        imgUrl: req.body.imgUrl,
+      };
+
+      return res.render("category_create", {
+        title: "Digital Convenience Store",
+        header: `Update Category: ${category.name}`,
+        category,
+        errors: allErrors,
+        postVals,
+      });
+    }
+
+    const validatedData = matchedData(req);
+
+    const category = await Category.findById(req.params.id).exec();
+
+    category.name = validatedData.name;
+    category.description = validatedData.description;
+    category.imgUrl =
+      req.body.imgUrl === ""
+        ? "https://images.unsplash.com/photo-1610187966294-0d2491a3cb1c?q=80&w=1927&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        : req.body.imgUrl;
+
+    await category.save();
+    res.redirect(`/inventory/categories/${category._id}`);
+  }),
+];
 
 // DELETE
 
