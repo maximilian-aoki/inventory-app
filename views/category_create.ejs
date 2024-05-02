@@ -54,9 +54,43 @@
           </ul>
         </div>
       </div>
-      <div class="bg-slate-700 p-6 m-6 rounded-md shadow-lg">
+      <div
+        class="bg-slate-700 p-6 m-6 rounded-md shadow-lg grid content-start gap-4"
+      >
         <h2 class="text-3xl text-white font-bold"><%= header %></h2>
         <!-- START OF DYNAMIC CONTENT -->
+        <form action="" method="POST" class="flex flex-col max-w-96 gap-4">
+          <div class="flex flex-col gap-2 text-white">
+            <label for="name">Name:</label>
+            <input type="text" class="appearance-none text-slate-900 p-1
+            rounded" minlength="2" maxlength="25" required value="<%=
+            locals.category ? category.name : "" %>" id="name" name="name" />
+          </div>
+          <div class="flex flex-col gap-2 text-white">
+            <label for="description">Description:</label>
+            <input type="text" class="appearance-none text-slate-900 p-1
+            rounded" minlength="2" maxlength="100" required value="<%=
+            locals.category ? category.description : "" %>" id="description"
+            name="description" />
+          </div>
+          <div class="flex flex-col gap-2 text-white">
+            <label for="imgUrl">Image URL:</label>
+            <input type="text" class="appearance-none text-slate-900 p-1
+            rounded" value="<%= locals.category ? category.imgUrl : "" %>"
+            id="imgUrl" name="imgUrl" />
+          </div>
+          <input
+            type="submit"
+            class="text-white bg-blue-500 rounded py-3 mt-3 hover:cursor-pointer hover:bg-blue-400"
+          />
+          <% if (locals.errors) { %>
+          <ul class="text-red-300 text-sm">
+            <% errors.forEach(error => { %>
+            <li><%= error %></li>
+            <% }) %>
+          </ul>
+          <% } %>
+        </form>
         <!-- END OF DYNAMIC MAIN CONTENT -->
       </div>
     </main>

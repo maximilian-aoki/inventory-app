@@ -54,9 +54,84 @@
           </ul>
         </div>
       </div>
-      <div class="bg-slate-700 p-6 m-6 rounded-md shadow-lg">
+      <div
+        class="bg-slate-700 p-6 m-6 rounded-md shadow-lg grid content-start gap-4"
+      >
         <h2 class="text-3xl text-white font-bold"><%= header %></h2>
         <!-- START OF DYNAMIC CONTENT -->
+        <% if (locals.allCategories && locals.allCategories.length) { %>
+        <form action="" method="POST" class="flex flex-col max-w-96 gap-4">
+          <div class="flex flex-col gap-2 text-white">
+            <label for="category">Category:</label>
+            <select
+              name="category"
+              id="category"
+              class="text-slate-900 p-1 rounded min-w-48 h-8"
+              required
+            >
+              <% locals.allCategories.forEach(category => { %> <% if
+              (locals.item && item.category._id.toString() ===
+              category._id.toString()) { %>
+              <option value="<%= category._id %>" selected>
+                <%= category.name %>
+              </option>
+              <% } else { %>
+              <option value="<%= category._id %>"><%= category.name %></option>
+              <% } %> <% }) %>
+            </select>
+          </div>
+          <hr />
+          <div class="flex flex-col gap-2 text-white">
+            <label for="name">Name:</label>
+            <input type="text" class="appearance-none text-slate-900 p-1
+            rounded" minlength="2" maxlength="25" required value="<%=
+            locals.item ? item.name : "" %>" id="name" name="name" />
+          </div>
+          <div class="flex flex-col gap-2 text-white">
+            <label for="description">Description:</label>
+            <input type="text" class="appearance-none text-slate-900 p-1
+            rounded" minlength="2" maxlength="100" required value="<%=
+            locals.item ? item.description : "" %>" name="description"
+            id="description" />
+          </div>
+          <hr />
+          <div class="flex flex-col gap-2 text-white">
+            <label for="price">Price:</label>
+            <input type="number" class="appearance-none text-slate-900 p-1
+            rounded max-w-20" min="0" required value="<%= locals.item ?
+            item.price : "" %>" id="price" name="price" />
+          </div>
+          <div class="flex flex-col gap-2 text-white">
+            <label for="numberInStock">Number In Stock:</label>
+            <input type="number" class="appearance-none text-slate-900 p-1
+            rounded max-w-20" min="0" max="100" required value="<%= locals.item
+            ? item.numberInStock : "" %>" id="numberInStock"
+            name="numberInStock" />
+          </div>
+          <hr />
+          <div class="flex flex-col gap-2 text-white">
+            <label for="imgUrl">Image URL:</label>
+            <input type="text" class="appearance-none text-slate-900 p-1
+            rounded" value="<%= locals.item ? item.imgUrl : "" %>" id="imgUrl"
+            name="imgUrl" />
+          </div>
+          <input
+            type="submit"
+            class="text-white bg-blue-500 rounded py-3 mt-3 hover:cursor-pointer hover:bg-blue-400"
+          />
+          <% if (locals.errors) { %>
+          <ul class="text-red-300 text-sm">
+            <% errors.forEach(error => { %>
+            <li><%= error %></li>
+            <% }) %>
+          </ul>
+          <% } %>
+        </form>
+        <% } else { %>
+        <p class="text-white">
+          You need to add a category before creating a product!
+        </p>
+        <% } %>
         <!-- END OF DYNAMIC MAIN CONTENT -->
       </div>
     </main>

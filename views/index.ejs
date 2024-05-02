@@ -54,9 +54,35 @@
           </ul>
         </div>
       </div>
-      <div class="bg-slate-700 p-6 m-6 rounded-md shadow-lg">
+      <div
+        class="bg-slate-700 p-6 m-6 rounded-md shadow-lg grid content-start gap-4"
+      >
         <h2 class="text-3xl text-white font-bold"><%= header %></h2>
         <!-- START OF DYNAMIC CONTENT -->
+        <div
+          class="text-slate-900 text-white text-lg p-4 bg-slate-600 rounded w-auto flex flex-wrap gap-4"
+        >
+          <p>Welcome to the Inventory App!</p>
+          <p>
+            Keep track of Digital Convenience store inventory as a visitor or
+            admin.
+          </p>
+          <p>
+            As a
+            <span class="text-amber-200"
+              ><strong><i>visitor</i></strong></span
+            >, you can view/update all categories and products, as well as
+            create new ones.
+          </p>
+          <p>
+            As an
+            <span class="text-amber-200"
+              ><strong><i>admin</i></strong></span
+            >
+            (by entering the secret password!), you can delete categories and
+            products.
+          </p>
+        </div>
         <!-- END OF DYNAMIC MAIN CONTENT -->
       </div>
     </main>

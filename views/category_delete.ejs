@@ -6,7 +6,7 @@
   </head>
   <body class="h-screen flex flex-col font-mono">
     <header
-      class="flex-none h-36 grid place-content-center bg-slate-600 font-bold text-5xl shadow-md text-white p-4"
+      class="flex-initial h-36 grid place-content-center bg-slate-600 font-bold text-5xl shadow-md text-white p-4"
     >
       <h1>Store Inventory Manager</h1>
     </header>
@@ -59,44 +59,51 @@
       >
         <h2 class="text-3xl text-white font-bold"><%= header %></h2>
         <!-- START OF DYNAMIC CONTENT -->
-        <div
-          class="text-slate-900 text-lg p-4 bg-slate-600 rounded w-auto flex flex-wrap gap-4"
-        >
-          <% if (locals.allItems.length) { %> <% locals.allItems.forEach(item =>
-          { %>
-          <a
-            href="<%= item.url %>"
-            class="bg-amber-100 flex-initial w-64 rounded flex flex-col overflow-hidden"
-          >
-            <div class="flex-initial h-36 overflow-hidden">
-              <img
-                src="<%= item.imgUrl %>"
-                alt="category image"
-                class="w-64 object-cover object-center"
-              />
-            </div>
-            <div class="flex-1 p-4">
-              <h4 class="text-md mb-1">
-                <strong><%= item.name %></strong>
-              </h4>
-              <div class="flex justify-start gap-4 mb-1 content-center">
-                <p><i>$<%= item.price.toFixed(2) %></i></p>
-                <p
-                  class="text-blue-500 italic text-sm rounded grid place-content-center"
-                >
-                  <%= item.category.name %>
-                </p>
-              </div>
-              <p class="p-1 text-slate-800 text-sm mb-2">
-                <i><strong><%= item.numberInStock %></strong> in stock</i>
-              </p>
-              <p class="text-sm"><%= item.description %></p>
-            </div>
-          </a>
-          <% }) %> <% } else { %>
-          <p class="text-white">No items exist yet - add one to get started!</p>
+        <form action="" method="POST" class="flex flex-col max-w-96 gap-4">
+          <div class="flex flex-col gap-2 text-white">
+            <label for="password">Admin Password:</label>
+            <input
+              type="password"
+              class="appearance-none text-slate-900 p-1 rounded"
+              id="password"
+              name="password"
+              required
+            />
+            <input
+              type="hidden"
+              name="deleteId"
+              value="<%= locals.category._id %>"
+            />
+          </div>
+          <input
+            type="submit"
+            class="text-white bg-red-600 rounded py-3 mt-3 hover:cursor-pointer hover:bg-red-500"
+            value="Delete"
+          />
+          <% if (locals.errors) { %>
+          <ul class="text-red-300 text-sm">
+            <% errors.forEach(error => { %>
+            <li><%= error %></li>
+            <% }) %>
+          </ul>
           <% } %>
-        </div>
+        </form>
+        <% if (locals.allItems && locals.allItems.length) { %>
+        <p class="mt-4 text-white">
+          <strong
+            >Warning! this action will delete the following products:</strong
+          >
+        </p>
+        <ul>
+          <% locals.allItems.forEach(item => { %>
+          <li>
+            <a href="<%= item.url %>" class="text-blue-400 hover:text-blue-300"
+              ><%= item.name %></a
+            >
+          </li>
+          <% }) %>
+        </ul>
+        <% } %>
         <!-- END OF DYNAMIC MAIN CONTENT -->
       </div>
     </main>

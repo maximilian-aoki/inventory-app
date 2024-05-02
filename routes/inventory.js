@@ -1,6 +1,9 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 
+const Category = require("../db/models/category");
+const Item = require("../db/models/item");
+
 const categoryController = require("../controllers/categoryController");
 const itemController = require("../controllers/itemController");
 
@@ -11,9 +14,14 @@ const router = express.Router();
 router.get(
   "/",
   asyncHandler(async (req, res, next) => {
+    const categoryCount = await Category.countDocuments().exec();
+    const itemCount = await Item.countDocuments().exec();
+
     res.render("inventory_page", {
       title: "Digital Convenience Store",
       header: "Inventory Overview",
+      categoryCount,
+      itemCount,
     });
   })
 );
