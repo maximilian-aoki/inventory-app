@@ -65,7 +65,7 @@ exports.itemCreatePost = [
         imgUrl: req.body.imgUrl,
       };
 
-      res.render("item_create", {
+      return res.render("item_create", {
         title: "Digital Convenience Store",
         header: "Create a New Product",
         allCategories,
